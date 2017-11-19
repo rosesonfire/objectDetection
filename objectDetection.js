@@ -302,13 +302,13 @@ function createRGBPixels(name) {
 
             var detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray, backPixel, frontPixel);
 
-            var detectedObjectPromise = createRGBPixels({
+            var detectedObject = createRGBPixels({
                 l: this.shape[0],
                 w: this.shape[1],
                 pixelArray: detectionArrayPixels
             });
 
-            return detectedObjectPromise;
+            return detectedObject;
 
         };
 
