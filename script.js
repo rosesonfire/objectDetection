@@ -9,9 +9,10 @@ function refresh() {
     });
   }
 
-  var imgName = document.querySelector("#hello").value,
+  var imgInfo = document.querySelector("#hello").value,
       sensitivity = document.querySelector("#sensitivity").value,
       tolerance = document.querySelector("#tolerance").value;
+  var imgName = imgInfo.split("-")[0];
 
   var fileExt = imgName.split(".")[1];
   
@@ -35,6 +36,15 @@ function refresh() {
 }
 
 document.querySelector("#hello").addEventListener("change", function(event){
+  
+  var imgInfo = document.querySelector("#hello").value;
+  var sensitivity = imgInfo.split("-")[1],
+      tolerance = imgInfo.split("-")[2];
+
+  document.querySelector("#sensitivity").value = sensitivity;
+  document.querySelector("#sensitivitySetter").value = sensitivity;
+  document.querySelector("#tolerance").value = tolerance;
+  document.querySelector("#toleranceSetter").value = tolerance;
   
   refresh();
   
