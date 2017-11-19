@@ -7,25 +7,33 @@
 
   <body>
 
-    <fieldset>
+    <fieldset class="float fixed-height">
       <legend>Image file</legend>
-      <select id="hello">
+      <select id="hello" class="critical">
         <option value="" id="no-image">--select--</option>
-        <option value="bird.jpg-74-25">bird</option>
-        <option value="birb.jpg-88.4-19">birb</option>
+        <option value="bird.jpg-84.6-21">bird</option>
+        <option value="birb.jpg-93-15">birb</option>
         <option value="ball.jpg-50-50">ball</option>
-        <option value="mic.jpg-88.7-15.3">mic</option>
+        <option value="mic.jpg-88.7-16.2">mic</option>
         <option value="cherry.jpg-82.8-21.3">cherry</option>
       </select><br>
     </fieldset>
+    <fieldset class="fixed-height" hidden>
+      <legend>Optimize</legend>
+      <label class="critical" >Accuracy: </label>
+      <input id="accuracySetter" class="critical" type="number" value="50" min="1" max="100" />
+      <input id="accuracy" class="critical wide" type="range" value="50" step="0.1" min="1" max="100" />
+      <progress id="optimize-progress" value="0" max="100" hidden></progress>
+      <button id="optimize" class="critical">Optimize</button>
+    </fieldset>
     <fieldset class="resize fixed-height" hidden>
       <legend>Sensitivity</legend>
-      <input id="sensitivitySetter" class="critical" type="number" value="50"/>
+      <input id="sensitivitySetter" class="critical" type="number" value="50" min="1" max="100"/>
       <input id="sensitivity" class="critical wide" type="range" value="50" step="0.1" min="1" />
     </fieldset>
     <fieldset class="resize fixed-height" hidden>
       <legend>Tolerance</legend>
-      <input id="toleranceSetter" class="critical" type="number" value="50"/>
+      <input id="toleranceSetter" class="critical" type="number" value="50" min="1" max="100"/>
       <input id="tolerance" class="critical wide" type="range" value="50" step="0.1" min="1" />
     </fieldset>
     <fieldset class="float" hidden>

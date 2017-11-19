@@ -23,7 +23,10 @@ function createRGBPixels(name) {
             } else {
 
                 var options = name;
-                    pixels = ndarray(new Uint32Array(options.pixelArray), [options.l, options.w, 4])
+                var pixels = ndarray(new Uint32Array(options.pixelArray), [options.l, options.w, 4]);
+
+                pixels.optimal = options.optimal;
+                pixels.optimalClusterSize = options.optimalClusterSize;
 
                 success(pixels);
                 
@@ -37,7 +40,17 @@ function createRGBPixels(name) {
         p.save = function(fileExt) {
 
             var stream = savePixels(this, fileExt).pipe(base64.encode());
-            var base64Img = toString(stream);
+            var base64Img = toString(stream).then(function(base64Img) {
+
+                base64ImgResponse = {
+                    base64Img,
+                    optimal: this.optimal,
+                    optimalClusterSize: this.optimalClusterSize
+                };
+
+                return base64ImgResponse;
+
+            }.bind(this));
 
             return base64Img;
 
@@ -257,13 +270,41 @@ function createRGBPixels(name) {
             }
 
             var dbscan = new clustering.DBSCAN();
-            dbscan.run(dbScanInput, scanRadius, 100);
-            var noise = dbscan.noise;
-
-            for (var i=0, len_i=noise.length; i<len_i; i++) {
-                var noisePoint = dbScanInput[noise[i]];
-                detection2DArray[noisePoint[0]][noisePoint[1]] = false;
+            var clusters = dbscan.run(dbScanInput, scanRadius, 100);
+            var optimal = clusters.length === 1;
+            var optimalClusterSize = optimal ? clusters[0].length : null;
+            
+            for (var i=0, len_i=dbScanInput.length; i<len_i; i++) {
+                
+                var point = dbScanInput[i];
+                detection2DArray[point[0]][point[1]] = false;
             }
+
+            if (clusters.length > 0) {
+
+                var mainCluster = clusters.reduce(function(cluster1, cluster2) {
+                    
+                    var biggerCluster;
+
+                    if (cluster1.length > cluster2.length) {
+                        biggerCluster = cluster1;
+                    } else {
+                        biggerCluster = cluster2;
+                    }
+
+                    return biggerCluster;
+
+                });                
+
+                for (var i=0, len_i=mainCluster.length; i<len_i; i++) {
+
+                    var point = dbScanInput[mainCluster[i]];
+                    detection2DArray[point[0]][point[1]] = true;
+
+                }
+            }
+
+            return { optimal, optimalClusterSize };
 
         };
 
@@ -298,14 +339,15 @@ function createRGBPixels(name) {
             var detection2DArray = this.detectObjectRowWise(sensitivity);
             
             this.detectObjectColWise(sensitivity, detection2DArray);            
-            this.removeNoise(detection2DArray, tolerance);
-
-            var detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray, backPixel, frontPixel);
-
+            
+            var { optimal, optimalClusterSize } = this.removeNoise(detection2DArray, tolerance);
+                detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray, backPixel, frontPixel);
             var detectedObject = createRGBPixels({
                 l: this.shape[0],
                 w: this.shape[1],
-                pixelArray: detectionArrayPixels
+                pixelArray: detectionArrayPixels,
+                optimal,
+                optimalClusterSize
             });
 
             return detectedObject;
@@ -344,9 +386,9 @@ window.work = function (imageName, fileExt, sensitivity, tolerance) {
         })
         .then(function(detectedObject) {
     
-            var base64Img = detectedObject.save(fileExt);
-
-            return base64Img;
+            var base64ImgResponse = detectedObject.save(fileExt);
+            
+            return base64ImgResponse;
     
         });
 
