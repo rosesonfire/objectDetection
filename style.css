@@ -22,10 +22,6 @@ img {
   width: 300px;
 }
 
-#sensitivity {
+.critical {
   width: 100%;
-}
-
-#sensitivityValue {
-  text-align: center
 }

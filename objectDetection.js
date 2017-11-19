@@ -3,6 +3,7 @@ var savePixels = require("save-pixels");
 var ndarray = require("ndarray");
 var toString = require("stream-to-string");
 var base64 = require("base64-stream");
+var clustering = require("density-clustering");
 
 function createRGBPixels(name) {
 
@@ -179,7 +180,34 @@ function createRGBPixels(name) {
 
         };
 
-        p.detectObject = function(sensitivity, backPixel, frontPixel) {
+        p.removeNoise = function(detection2DArray, tollerance) {
+
+            var imgSpread = Math.max(this.shape[0], this.shape[1]);
+            var scanRadius = (tollerance / 2) * imgSpread / 100,
+                dbScanInput = [];
+
+            for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
+                for (var j=0, len_j=detection2DArray[i].length; j<len_j; j++) {
+                    if (detection2DArray[i][j]) {
+                        dbScanInput.push([i, j]);
+                    }
+                }
+            }
+
+            var dbscan = new clustering.DBSCAN();
+            dbscan.run(dbScanInput, scanRadius, 100);
+            var noise = dbscan.noise;
+
+            for (var i=0, len_i=noise.length; i<len_i; i++) {
+                var noisePoint = dbScanInput[noise[i]];
+                detection2DArray[noisePoint[0]][noisePoint[1]] = false;
+            }
+
+            return detection2DArray;
+
+        };
+
+        p.detectObject = function(sensitivity, tollerance, backPixel, frontPixel) {
 
             var detection2DArray = this.foldLeftPixelRows([])(function(detection2DArray, curRow) {
 
@@ -233,6 +261,8 @@ function createRGBPixels(name) {
 
             }.bind(this));
 
+            detection2DArray = this.removeNoise(detection2DArray, tollerance);
+
             var detectionArrayPixels = [];
 
             for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
@@ -271,7 +301,7 @@ function createRGBPixels(name) {
 
 }
 
-window.work = function (imageName, fileExt, sensitivity) {
+window.work = function (imageName, fileExt, sensitivity, tollerance) {
     
     var white = {
         r: 255,
@@ -288,7 +318,7 @@ window.work = function (imageName, fileExt, sensitivity) {
     var base64 = createRGBPixels(imageName)
         .then(function(img) {
     
-            var detectedObject = img.detectObject(sensitivity, white, black);
+            var detectedObject = img.detectObject(sensitivity, tollerance, white, black);
             
             return detectedObject;
     

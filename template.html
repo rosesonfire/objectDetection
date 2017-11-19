@@ -10,17 +10,22 @@
     <fieldset>
       <legend>Image file</legend>
       <select id="hello">
-        <option>bird.jpg</option>
-        <option>birb.jpg</option>
-        <option>ball.jpg</option>
-        <option>mic.jpg</option>
-        <option>cherry.jpg</option>
+        <option value="bird.jpg">bird</option>
+        <option value="birb.jpg">birb</option>
+        <option value="ball.jpg">ball</option>
+        <option value="mic.jpg">mic</option>
+        <option value="cherry.jpg">cherry</option>
       </select><br>
     </fieldset>
     <fieldset class="resize fixed-height">
       <legend>Sensitivity</legend>
       <label id="sensitivityValue"></label><br>
-      <input id="sensitivity" type="range" step="0.1" min="1"/>
+      <input id="sensitivity" class="critical" type="range" step="0.1" min="1"/>
+    </fieldset>
+    <fieldset class="resize fixed-height">
+      <legend>Tollerance</legend>
+      <label id="tolleranceValue"></label><br>
+      <input id="tollerance" class="critical" type="range" step="0.1" min="1"/>
     </fieldset>
     <fieldset class="float">
       <legend>Image</legend>
