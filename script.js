@@ -1,4 +1,11 @@
 function refresh() {
+
+  var noImageOption = document.querySelector("#no-image");
+  
+  if (noImageOption) {
+    noImageOption.remove();
+  }
+
   var imgName = document.querySelector("#hello").value,
       sensitivity = document.querySelector("#sensitivity").value,
       tollerance = document.querySelector("#tollerance").value;
@@ -24,6 +31,7 @@ function refresh() {
       });
 
     });
+
 }
 
 document.querySelector("#hello").addEventListener("change", function(event){
