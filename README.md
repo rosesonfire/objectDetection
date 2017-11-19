@@ -3,3 +3,5 @@ Detect objects in small background blurred and close focused images
 `npm install`
 # Caution
 - Use small images, preferably less than 100 kB
+# Start
+`npm start`
