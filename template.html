@@ -18,23 +18,23 @@
         <option value="cherry.jpg">cherry (sensitivity: 81.5, tolerance: 24.6)</option>
       </select><br>
     </fieldset>
-    <fieldset class="resize fixed-height">
+    <fieldset class="resize fixed-height" hidden>
       <legend>Sensitivity</legend>
-      <label id="sensitivityValue"></label><br>
-      <input id="sensitivity" class="critical" type="range" step="0.1" min="1"/>
+      <input id="sensitivitySetter" class="critical" type="number" value="50"/>
+      <input id="sensitivity" class="critical wide" type="range" value="50" step="0.1" min="1" />
     </fieldset>
-    <fieldset class="resize fixed-height">
+    <fieldset class="resize fixed-height" hidden>
       <legend>Tolerance</legend>
-      <label id="toleranceValue"></label><br>
-      <input id="tolerance" class="critical" type="range" step="0.1" min="1"/>
+      <input id="toleranceSetter" class="critical" type="number" value="50"/>
+      <input id="tolerance" class="critical wide" type="range" value="50" step="0.1" min="1" />
     </fieldset>
-    <fieldset class="float">
+    <fieldset class="float" hidden>
       <legend>Image</legend>
-      <img id="bye">
+      <img id="bye" />
     </fieldset>
-    <fieldset>
+    <fieldset hidden>
       <legend>Object</legend>
-      <img id="tada">
+      <img id="tada" />
     </fieldset>
   </body>
 

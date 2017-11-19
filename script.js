@@ -4,14 +4,14 @@ function refresh() {
   
   if (noImageOption) {
     noImageOption.remove();
+    document.querySelectorAll("fieldset").forEach(function(fieldset) {
+      fieldset.removeAttribute("hidden");
+    });
   }
 
   var imgName = document.querySelector("#hello").value,
       sensitivity = document.querySelector("#sensitivity").value,
       tolerance = document.querySelector("#tolerance").value;
-
-  document.querySelector("#sensitivityValue").innerHTML = sensitivity;
-  document.querySelector("#toleranceValue").innerHTML = tolerance;
 
   var fileExt = imgName.split(".")[1];
   
@@ -35,13 +35,43 @@ function refresh() {
 }
 
 document.querySelector("#hello").addEventListener("change", function(event){
+  
   refresh();
+  
 });
 
 document.querySelector("#sensitivity").addEventListener("change", function(event){
+  
+  var value = this.value;
+  
+  document.querySelector("#sensitivitySetter").value = value;
   refresh();
+
+});
+
+document.querySelector("#sensitivitySetter").addEventListener("change", function(event){
+  
+  var value = this.value;
+
+  document.querySelector("#sensitivity").value = value;
+  refresh();
+
 });
 
 document.querySelector("#tolerance").addEventListener("change", function(event){
+  
+  var value = this.value;
+  
+  document.querySelector("#toleranceSetter").value = value;
   refresh();
+
+});
+
+document.querySelector("#toleranceSetter").addEventListener("change", function(event){
+  
+  var value = this.value;
+
+  document.querySelector("#tolerance").value = value;
+  refresh();
+
 });
