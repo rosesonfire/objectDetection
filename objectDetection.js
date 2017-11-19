@@ -180,37 +180,10 @@ function createRGBPixels(name) {
 
         };
 
-        p.removeNoise = function(detection2DArray, tolerance) {
-
-            var imgSpread = Math.max(this.shape[0], this.shape[1]);
-            var scanRadius = (tolerance / 2) * imgSpread / 100,
-                dbScanInput = [];
-
-            for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
-                for (var j=0, len_j=detection2DArray[i].length; j<len_j; j++) {
-                    if (detection2DArray[i][j]) {
-                        dbScanInput.push([i, j]);
-                    }
-                }
-            }
-
-            var dbscan = new clustering.DBSCAN();
-            dbscan.run(dbScanInput, scanRadius, 100);
-            var noise = dbscan.noise;
-
-            for (var i=0, len_i=noise.length; i<len_i; i++) {
-                var noisePoint = dbScanInput[noise[i]];
-                detection2DArray[noisePoint[0]][noisePoint[1]] = false;
-            }
-
-            return detection2DArray;
-
-        };
-
-        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
+        p.detectObjectRowWise = function(sensitivity) {
 
             var detection2DArray = this.foldLeftPixelRows([])(function(detection2DArray, curRow) {
-
+                
                 var outlineDetectionFunc = this.detectObjectOutline(sensitivity),
                     rowDetectionArray = [];
                 var reducedRowResultTop = curRow.foldLeftPixels([false, [], curRow[0]])(outlineDetectionFunc);
@@ -233,6 +206,12 @@ function createRGBPixels(name) {
                 return detection2DArray;
 
             }.bind(this));
+
+            return detection2DArray;
+            
+        };
+
+        p.detectObjectColWise = function(sensitivity, detection2DArray) {
 
             this.foldLeftPixelCols([detection2DArray, 0])(function(result, curCol) {
                 
@@ -261,7 +240,39 @@ function createRGBPixels(name) {
 
             }.bind(this));
 
-            detection2DArray = this.removeNoise(detection2DArray, tolerance);
+        };
+
+        p.removeNoise = function(detection2DArray, tolerance) {
+            
+            var imgSpread = Math.max(this.shape[0], this.shape[1]);
+            var scanRadius = (tolerance / 2) * imgSpread / 100,
+                dbScanInput = [];
+
+            for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
+                for (var j=0, len_j=detection2DArray[i].length; j<len_j; j++) {
+                    if (detection2DArray[i][j]) {
+                        dbScanInput.push([i, j]);
+                    }
+                }
+            }
+
+            var dbscan = new clustering.DBSCAN();
+            dbscan.run(dbScanInput, scanRadius, 100);
+            var noise = dbscan.noise;
+
+            for (var i=0, len_i=noise.length; i<len_i; i++) {
+                var noisePoint = dbScanInput[noise[i]];
+                detection2DArray[noisePoint[0]][noisePoint[1]] = false;
+            }
+
+        };
+
+        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
+
+            var detection2DArray = this.detectObjectRowWise(sensitivity);
+            
+            this.detectObjectColWise(sensitivity, detection2DArray);            
+            this.removeNoise(detection2DArray, tolerance);
 
             var detectionArrayPixels = [];
 
