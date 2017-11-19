@@ -6,5 +6,6 @@ Detect objects in small background blurred and close focused images
 - Currently works for single object.
 - Behaviour is not strongly defined for multi-objects.
 - Contiguous objects are considered as single object.
+- Optimizer is not well tuned yet.
 # Start
 `npm start`
