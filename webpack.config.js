@@ -19,6 +19,21 @@ module.exports = {
     path: outputPath,
     filename: "[name].min.js"
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract([
+          {
+            loader: "css-loader",
+            options: {
+              minimize: true
+            }
+          }
+        ])
+      }
+    ]
+  },
   plugins: [
     new ExtractTextPlugin("[name].min.css"),
     new HtmlWebpackPlugin({

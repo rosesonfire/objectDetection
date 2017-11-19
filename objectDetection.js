@@ -152,6 +152,8 @@ function createRGBPixels(name) {
 
         p.detectObjectOutline = function(sensitivity) {
 
+            var minDiff = (100 - sensitivity) * 221 / 100;
+
             return function(result, curPixel) {
                 
                 var done = result[0],
@@ -164,7 +166,7 @@ function createRGBPixels(name) {
 
                 }
 
-                if (diff && diff > sensitivity) {
+                if (diff && diff >= minDiff) {
                     detectionArray.push(true);
                     done = true;
                 } else {

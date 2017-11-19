@@ -1,0 +1,31 @@
+fieldset {
+  border: 2px solid;
+  padding: 20px;
+  width: max-content;
+}
+
+fieldset.resize {
+  resize: horizontal;
+  overflow: auto;
+  width: 646px;
+}
+
+fieldset.float {
+  float: left;
+}
+
+fieldset.fixed-height {
+  height: 70px;
+}
+
+img {
+  width: 300px;
+}
+
+#sensitivity {
+  width: 100%;
+}
+
+#sensitivityValue {
+  text-align: center
+}

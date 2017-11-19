@@ -7,20 +7,28 @@
 
   <body>
 
-    <label>Image: </label>
-    <select id="hello">
-      <option>bird.jpg</option>
-      <option>birb.jpg</option>
-      <option>dice.jpg</option>
-      <option>ball.jpg</option>
-      <option>mic.jpg</option>
-    </select><br>
-    <label>Sensitivity: </label>
-    <input id="sensitivity" type="range" min="0" max="255"/>
-    <label id="sensitivityValue"></label><br>
-    <img id="bye" src="/bird.jpg", height="200">
-    <img id="tada" src="/bird.jpg", height="200">
-
+    <fieldset>
+      <legend>Image file</legend>
+      <select id="hello">
+        <option>bird.jpg</option>
+        <option>birb.jpg</option>
+        <option>ball.jpg</option>
+        <option>mic.jpg</option>
+      </select><br>
+    </fieldset>
+    <fieldset class="resize fixed-height">
+      <legend>Sensitivity</legend>
+      <label id="sensitivityValue"></label><br>
+      <input id="sensitivity" type="range" step="0.1" min="1"/>
+    </fieldset>
+    <fieldset class="float">
+      <legend>Image</legend>
+      <img id="bye" src="/bird.jpg">
+    </fieldset>
+    <fieldset>
+      <legend>Object</legend>
+      <img id="tada" src="/bird.jpg">
+    </fieldset>
   </body>
 
 </html>
