@@ -192,7 +192,7 @@ function createRGBPixels(name) {
                     rowDetectionArray.push(rowDetectionArrayTop[i]);
                 }
 
-                var reducedRowResultBottom = curRow.foldRightPixels([false, [], curRow[0]])(outlineDetectionFunc);
+                var reducedRowResultBottom = curRow.foldRightPixels([false, [], curRow[curRow.length-1]])(outlineDetectionFunc);
                 var rowDetectionArrayBottom = reducedRowResultBottom[1];
 
                 for (var i=0, j=rowDetectionArray.length-1, len_i=rowDetectionArrayBottom.length; i<len_i; i++, j--) {
@@ -219,7 +219,7 @@ function createRGBPixels(name) {
                     colDetectionArray.push(colDetectionArrayLeft[i]);
                 }
 
-                var reducedColResultRight = curCol.foldRightPixels([false, [], curCol[0]])(outlineDetectionFunc);
+                var reducedColResultRight = curCol.foldRightPixels([false, [], curCol[curCol.length-1]])(outlineDetectionFunc);
                 var colDetectionArrayRight = reducedColResultRight[1];
 
                 for (var i=0, j=colDetectionArray.length-1, len_i=colDetectionArrayRight.length; i<len_i; i++, j--) {
