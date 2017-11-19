@@ -267,15 +267,10 @@ function createRGBPixels(name) {
 
         };
 
-        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
-
-            var detection2DArray = this.detectObjectRowWise(sensitivity);
+        p.getDetectionArrayPixels = function(detection2DArray, backPixel, frontPixel) {
             
-            this.detectObjectColWise(sensitivity, detection2DArray);            
-            this.removeNoise(detection2DArray, tolerance);
-
             var detectionArrayPixels = [];
-
+            
             for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
                 
                 var rowDetectionArray = detection2DArray[i];
@@ -293,6 +288,19 @@ function createRGBPixels(name) {
                     detectionArrayPixels.push(255);
                 }
             }
+
+            return detectionArrayPixels;
+
+        }
+
+        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
+
+            var detection2DArray = this.detectObjectRowWise(sensitivity);
+            
+            this.detectObjectColWise(sensitivity, detection2DArray);            
+            this.removeNoise(detection2DArray, tolerance);
+
+            var detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray, backPixel, frontPixel);
 
             var detectedObjectPromise = createRGBPixels({
                 l: this.shape[0],
