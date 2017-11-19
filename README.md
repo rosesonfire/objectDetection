@@ -3,5 +3,8 @@ Detect objects in small background blurred and close focused images
 `npm install`
 # Caution
 - Use small images, preferably less than 100 kB
+- Currently works for single object.
+- Behaviour is not strongly defined for multi-objects.
+- Contiguous objects are considered as single object.
 # Start
 `npm start`
