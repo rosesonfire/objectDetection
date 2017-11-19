@@ -334,7 +334,7 @@ window.work = function (imageName, fileExt, sensitivity, tolerance) {
         b: 0
     };
     
-    var base64 = createRGBPixels(imageName)
+    var base64Img = createRGBPixels(imageName)
         .then(function(img) {
     
             var detectedObject = img.detectObject(sensitivity, tolerance, white, black);
@@ -344,13 +344,13 @@ window.work = function (imageName, fileExt, sensitivity, tolerance) {
         })
         .then(function(detectedObject) {
     
-            var base64 = detectedObject.save(fileExt);
+            var base64Img = detectedObject.save(fileExt);
 
-            return base64;
+            return base64Img;
     
         });
 
-    return base64;
+    return base64Img;
 }
 
 
