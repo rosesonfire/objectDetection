@@ -180,10 +180,10 @@ function createRGBPixels(name) {
 
         };
 
-        p.removeNoise = function(detection2DArray, tollerance) {
+        p.removeNoise = function(detection2DArray, tolerance) {
 
             var imgSpread = Math.max(this.shape[0], this.shape[1]);
-            var scanRadius = (tollerance / 2) * imgSpread / 100,
+            var scanRadius = (tolerance / 2) * imgSpread / 100,
                 dbScanInput = [];
 
             for (var i=0, len_i=detection2DArray.length; i<len_i; i++) {
@@ -207,7 +207,7 @@ function createRGBPixels(name) {
 
         };
 
-        p.detectObject = function(sensitivity, tollerance, backPixel, frontPixel) {
+        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
 
             var detection2DArray = this.foldLeftPixelRows([])(function(detection2DArray, curRow) {
 
@@ -261,7 +261,7 @@ function createRGBPixels(name) {
 
             }.bind(this));
 
-            detection2DArray = this.removeNoise(detection2DArray, tollerance);
+            detection2DArray = this.removeNoise(detection2DArray, tolerance);
 
             var detectionArrayPixels = [];
 
@@ -301,7 +301,7 @@ function createRGBPixels(name) {
 
 }
 
-window.work = function (imageName, fileExt, sensitivity, tollerance) {
+window.work = function (imageName, fileExt, sensitivity, tolerance) {
     
     var white = {
         r: 255,
@@ -318,7 +318,7 @@ window.work = function (imageName, fileExt, sensitivity, tollerance) {
     var base64 = createRGBPixels(imageName)
         .then(function(img) {
     
-            var detectedObject = img.detectObject(sensitivity, tollerance, white, black);
+            var detectedObject = img.detectObject(sensitivity, tolerance, white, black);
             
             return detectedObject;
     
