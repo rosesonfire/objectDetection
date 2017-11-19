@@ -1,4 +1,4 @@
-Detect objects in small background blurred and close focused images
+Detect objects in small, background-blurred and close-focused images
 # Installation
 `npm install`
 # Caution
