@@ -13,7 +13,7 @@ var operations = {
         var stream = savePixels(this, fileExt).pipe(base64.encode());
         var base64Img = toString(stream).then(function(base64Img) {
 
-            base64ImgResponse = {
+            var base64ImgResponse = {
                 base64Img,
                 optimal: this.optimal,
                 optimalClusterSize: this.optimalClusterSize
@@ -416,7 +416,7 @@ var operations = {
         
         this.detectObjectColWise(sensitivity, detection2DArray);            
         
-        var { optimal, optimalClusterSize } = this.removeNoise(detection2DArray, tolerance);
+        var { optimal, optimalClusterSize } = this.removeNoise(detection2DArray, tolerance),
             detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray);
         var detectedObject = createRGBPixels({
             l: this.shape[0],
@@ -510,7 +510,7 @@ function createRGBPixels(name) {
 
 //=== API ===
 
-window.work = function (imageName, fileExt, sensitivity, tolerance) {
+export default function (imageName, fileExt, sensitivity, tolerance) {
     
     var white = {
         r: 255,

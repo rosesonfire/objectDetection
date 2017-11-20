@@ -1,3 +1,5 @@
+import detectObject from "./objectDetection";
+
 function getImageInfo() {
   
   var imgInfo = document.querySelector("#hello").value;
@@ -54,7 +56,7 @@ function refresh(optimize, detail) {
 
   }
   
-  window.work(imgName, fileExt, sensitivity, tolerance)
+  detectObject(imgName, fileExt, sensitivity, tolerance)
     .then(function(base64ImgResponse) {
 
       if (!optimize) {
