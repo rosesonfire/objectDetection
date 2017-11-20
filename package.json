@@ -1,6 +1,6 @@
 {
   "name": "object-detection",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Detect single objects in small, background-blurred and close-focused images",
   "main": "objectDetection.js",
   "scripts": {
