@@ -1,4 +1,4 @@
-import detectObject from "./objectDetection";
+import detectObject from "./../objectDetection";
 
 function getImageInfo() {
   
@@ -40,8 +40,7 @@ function refresh(optimize, detail) {
       fieldset.removeAttribute("hidden");
     });
   
-    var imgInfo = document.querySelector("#hello").value,
-        sensitivity = document.querySelector("#sensitivity").value,
+    var sensitivity = document.querySelector("#sensitivity").value,
         tolerance = document.querySelector("#tolerance").value,
         { imgName, fileExt } = getImageInfo();
     

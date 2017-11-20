@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --config ./examples/webpack.config.js --context ./examples --content-base ./examples/images"
   },
   "author": "rosesonfire",
   "url": "https://github.com/rosesonfire/objectDetection/issues",

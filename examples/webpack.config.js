@@ -3,15 +3,12 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var HtmlWebpackExcludeAssetsPlugin = require("html-webpack-exclude-assets-plugin");
 
 const template = "./template.html";
-const app = "./objectDetection.js";
 const scripts = "./script.js";
 const styles = "./style.css";
-const imgPath = __dirname + "/img";
-const outputPath = __dirname + "/public";
+const outputPath = __dirname + "/examples/public";
 
 module.exports = {
   entry: {
-    app: app,
     scripts: scripts,
     styles: styles
   },
@@ -39,20 +36,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       hash: true,
       template: template,
-      excludeAssets: [/styles.*js/],
-      chunksSortMode: (a, b) => {
-        if (a.names[0] === "app") {
-          return -1;
-        }
-
-        return 1;
-      }
+      excludeAssets: [/styles.*js/]
     }),
     new HtmlWebpackExcludeAssetsPlugin()
   ],
   devServer: {
     inline: true,
-    open: true,
-    contentBase: imgPath
+    open: true
   }
 };
