@@ -510,7 +510,7 @@ function createRGBPixels(name) {
 
 //=== API ===
 
-export default function (imageName, fileExt, sensitivity, tolerance) {
+function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
     
     var white = {
         r: 255,
@@ -537,4 +537,4 @@ export default function (imageName, fileExt, sensitivity, tolerance) {
     return base64Img;
 };
 
-
+module.exports = detectObject;

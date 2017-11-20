@@ -1,17 +1,32 @@
-Detect objects in small, background-blurred and close-focused images
+Detect single objects in small, background-blurred and close-focused images
 # Installation
 `npm install`
+# Usage
+```
+
+var detectObject = require('objectDetection')
+
+var config = {
+  imageName: 'path-to-image', // preferrably less than 100 kB
+  fileExt: 'jpg', // preferrably jpg
+  sensitivity: 50, // ranges from 1 to 100
+  tolerance: 50, // ranges from 1 to 100
+}
+
+detectObject(config).then(function(response) {
+  var base64Img = response.base64Img
+  // use base64Img ...
+})
+
+```
 # Caution
 - Use small images, preferably less than 100 kB
 - Currently works for single object.
 - Behaviour is not strongly defined for multi-objects.
 - Contiguous objects are considered as single object.
 - Optimizer is not well tuned yet.
-# Start
-`npm start`
 # Examples
-
-
+Start examples: `npm start`
 Name|Image|Object
 -|-|-
 Baseball|<img src="./examples/images/baseball.jpg" width="200" />|<img src="./examples/objects/baseball.jpg" width="200">
