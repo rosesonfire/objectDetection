@@ -1,6 +1,6 @@
 Detect single objects in small, background-blurred and close-focused images
 # Installation
-`npm install`
+`npm install object-detection`
 # Usage
 ```
 
@@ -16,6 +16,7 @@ var config = {
 detectObject(config).then(function(response) {
   var base64Img = response.base64Img
   // use base64Img ...
+  imageElement.setAttribute('src', 'data:image/' + config.fileExt + ';base64,' + base64Img);
 })
 
 ```
@@ -27,6 +28,7 @@ detectObject(config).then(function(response) {
 - Optimizer is not well tuned yet.
 # Examples
 Start examples: `npm start`
+
 Name|Image|Object
 -|-|-
 Baseball|<img src="./examples/images/baseball.jpg" width="200" />|<img src="./examples/objects/baseball.jpg" width="200">
