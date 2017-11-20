@@ -511,6 +511,11 @@ function createRGBPixels(name) {
 //=== API ===
 
 function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
+
+    if (sensitivity < 1 || sensitivity > 100 || tolerance < 1 || tolerance > 100) {
+        alert("Sensitivity and Tolerance ranges between 1 and 100");
+        throw new Error("Sensitivity and Tolerance ranges between 1 and 100");
+    }
     
     var white = {
         r: 255,

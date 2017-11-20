@@ -4,7 +4,7 @@ Detect single objects in small, background-blurred and close-focused images
 # Usage
 ```
 
-var detectObject = require('objectDetection')
+var detectObject = require('object-detection')
 
 var config = {
   imageName: 'path-to-image', // preferrably less than 100 kB
