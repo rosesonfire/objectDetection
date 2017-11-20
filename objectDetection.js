@@ -68,6 +68,15 @@ function createRGBPixels(name) {
 
         };
 
+        p.setRGB = function(i, j, color) {
+            
+            this.set(i, j, 0, color.r);
+            this.set(i, j, 1, color.g);
+            this.set(i, j, 2, color.b);
+            this.set(i, j, 3, 255);
+
+        };
+
         var foldLeftPixels = function(pixelSeed){
             
             return function(f) {
@@ -308,7 +317,7 @@ function createRGBPixels(name) {
 
         };
 
-        p.getDetectionArrayPixels = function(detection2DArray, backPixel, frontPixel) {
+        p.getDetectionArrayPixels = function(detection2DArray) {
             
             var detectionArrayPixels = [];
             
@@ -318,13 +327,13 @@ function createRGBPixels(name) {
                 
                 for (var j=0, len_j=rowDetectionArray.length; j<len_j; j++) {
                     if (rowDetectionArray[j]) {
-                        detectionArrayPixels.push(frontPixel.r);
-                        detectionArrayPixels.push(frontPixel.g);
-                        detectionArrayPixels.push(frontPixel.b);
+                        detectionArrayPixels.push(1);
+                        detectionArrayPixels.push(1);
+                        detectionArrayPixels.push(1);
                     } else {
-                        detectionArrayPixels.push(backPixel.r);
-                        detectionArrayPixels.push(backPixel.g);
-                        detectionArrayPixels.push(backPixel.b);
+                        detectionArrayPixels.push(0);
+                        detectionArrayPixels.push(0);
+                        detectionArrayPixels.push(0);
                     }
                     detectionArrayPixels.push(255);
                 }
@@ -334,6 +343,94 @@ function createRGBPixels(name) {
 
         }
 
+        p.fill = function(backPixel, frontPixel) {
+
+            var filled2DArray = this.foldLeftPixelRows([])(function(filled2DArray, curRow) {
+                
+                var filled2DArrayRowResult = curRow.foldLeftPixels([[], false])(function([filled2DArrayRow, done], curPixel) {
+
+                    if (done || curPixel.r === 1) {
+                        done = true;
+                        filled2DArrayRow.push(true);
+                    } else {
+                        filled2DArrayRow.push(false);
+                    }
+                    
+                    return [filled2DArrayRow, done];
+
+                }.bind(this));
+
+                var filled2DArrayRow = filled2DArrayRowResult[0];
+
+                curRow.foldRightPixels([filled2DArrayRow, filled2DArrayRow.length-1, false])(function([filled2DArrayRow, colIndex, done], curPixel) {
+                    
+                    if (!done) {
+                        if (curPixel.r === 0) {
+                            filled2DArrayRow[colIndex] = false;
+                        } else {
+                            done = true;
+                        }
+                    }
+                    
+                    return [filled2DArrayRow, colIndex - 1, done];
+
+                }.bind(this));
+                
+                filled2DArray.push(filled2DArrayRow);
+
+                return filled2DArray;
+            
+            }.bind(this));
+
+            this.foldLeftPixelCols([filled2DArray, 0])(function([filled2DArray, colIndex], curCol) {
+                
+                curCol.foldLeftPixels([filled2DArray, 0, false])(function([filled2DArray, rowIndex, done], curPixel) {
+
+                    if (!done) {
+                        if ( curPixel.r === 0) {
+                            filled2DArray[rowIndex][colIndex] = false;
+                        } else {
+                            done = true;
+                        }
+                    }
+                    
+                    return [filled2DArray, rowIndex + 1, done];
+
+                }.bind(this));
+
+                curCol.foldRightPixels([filled2DArray, curCol.length-1, false])(function([filled2DArray, rowIndex, done], curPixel) {
+                    
+                    if (!done) {
+                        if ( curPixel.r === 0) {
+                            filled2DArray[rowIndex][colIndex] = false;
+                        } else {
+                            done = true;
+                        }
+                    }
+                    
+                    return [filled2DArray, rowIndex - 1, done];
+
+                }.bind(this));
+
+                return [filled2DArray, colIndex + 1];
+            
+            }.bind(this));
+
+            for (var i=0, len_i=filled2DArray.length; i<len_i; i++) {
+                
+                var filled2DArrayRow = filled2DArray[i];
+
+                for (var j=0, len_j=filled2DArrayRow.length; j<len_j; j++) {
+                    if (filled2DArrayRow[j]) {
+                        this.setRGB(i, j, frontPixel);
+                    } else {
+                        this.setRGB(i, j, backPixel);
+                    }
+                }
+            }
+
+        };
+
         p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
 
             var detection2DArray = this.detectObjectRowWise(sensitivity);
@@ -341,13 +438,19 @@ function createRGBPixels(name) {
             this.detectObjectColWise(sensitivity, detection2DArray);            
             
             var { optimal, optimalClusterSize } = this.removeNoise(detection2DArray, tolerance);
-                detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray, backPixel, frontPixel);
+                detectionArrayPixels = this.getDetectionArrayPixels(detection2DArray);
             var detectedObject = createRGBPixels({
                 l: this.shape[0],
                 w: this.shape[1],
                 pixelArray: detectionArrayPixels,
                 optimal,
                 optimalClusterSize
+            }).then(function(detectedObject){
+
+                detectedObject.fill(backPixel, frontPixel);
+
+                return detectedObject;
+
             });
 
             return detectedObject;
