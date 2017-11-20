@@ -343,7 +343,7 @@ function createRGBPixels(name) {
 
         }
 
-        p.fill = function(backPixel, frontPixel) {
+        p.fill = function(originalPixels, backPixel) {
 
             var filled2DArray = this.foldLeftPixelRows([])(function(filled2DArray, curRow) {
                 
@@ -422,7 +422,7 @@ function createRGBPixels(name) {
 
                 for (var j=0, len_j=filled2DArrayRow.length; j<len_j; j++) {
                     if (filled2DArrayRow[j]) {
-                        this.setRGB(i, j, frontPixel);
+                        this.setRGB(i, j, originalPixels.getRGB(i, j));
                     } else {
                         this.setRGB(i, j, backPixel);
                     }
@@ -431,7 +431,7 @@ function createRGBPixels(name) {
 
         };
 
-        p.detectObject = function(sensitivity, tolerance, backPixel, frontPixel) {
+        p.detectObject = function(sensitivity, tolerance, backPixel) {
 
             var detection2DArray = this.detectObjectRowWise(sensitivity);
             
@@ -447,11 +447,11 @@ function createRGBPixels(name) {
                 optimalClusterSize
             }).then(function(detectedObject){
 
-                detectedObject.fill(backPixel, frontPixel);
+                detectedObject.fill(this, backPixel);
 
                 return detectedObject;
 
-            });
+            }.bind(this));
 
             return detectedObject;
 
@@ -473,16 +473,10 @@ window.work = function (imageName, fileExt, sensitivity, tolerance) {
         b: 255
     };
     
-    var black = {
-        r: 0,
-        g: 0,
-        b: 0
-    };
-    
     var base64Img = createRGBPixels(imageName)
         .then(function(img) {
     
-            var detectedObject = img.detectObject(sensitivity, tolerance, white, black);
+            var detectedObject = img.detectObject(sensitivity, tolerance, white);
             
             return detectedObject;
     
