@@ -8,7 +8,6 @@ var clustering = require("density-clustering");
 // == operations ===
 
 var operations = {
-
     save: function (fileExt) {
     
         var stream = savePixels(this, fileExt).pipe(base64.encode());
@@ -270,13 +269,6 @@ var operations = {
         var clusters = this.findClusters(dbScanInput, tolerance);
         var optimal = clusters.length === 1;
         var optimalClusterSize = optimal ? clusters[0].length : null;
-        
-        /*for (var i=0, len_i=dbScanInput.length; i<len_i; i++) {
-            
-            var point = dbScanInput[i];
-
-            detection2DArray[point[0]][point[1]] = false;
-        }*/
 
         if (clusters.length > 0) {
 
