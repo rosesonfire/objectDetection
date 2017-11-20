@@ -29,8 +29,6 @@ detectObject(config).then(function(response) {
 - Contiguous objects are considered as single object.
 - Optimizer is not well tuned yet.
 # Examples
-Start examples: `npm start`
-
 Name|Image|Object
 -|-|-
 Baseball|<img src="./examples/images/baseball.jpg" width="200" />|<img src="./examples/objects/baseball.jpg" width="200">
@@ -39,3 +37,5 @@ Cherry|<img src="./examples/images/cherry.jpg" width="200" />|<img src="./exampl
 Mic|<img src="./examples/images/mic.jpg" width="200" />|<img src="./examples/objects/mic.jpg" width="200">
 Sunflower|<img src="./examples/images/sunflower.jpg" width="200" />|<img src="./examples/objects/sunflower.jpg" width="200">
 Flower|<img src="./examples/images/flower.jpg" width="200" />|<img src="./examples/objects/flower.jpg" width="200">
+# Web console
+[object-detection-console](https://github.com/rosesonfire/objectDetectionConsole) is a simple web console for the object-detection package.
