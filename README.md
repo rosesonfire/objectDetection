@@ -14,9 +14,9 @@ Detect objects in small, background-blurred and close-focused images
 
 Name|Image|Object
 -|-|-
-Baseball|<img src="./img/baseball.jpg" width="200" />|<img src="./examples/baseball.jpg" width="200">
-Birb|<img src="./img/birb.jpg" width="200" />|<img src="./examples/birb.jpg" width="200">
-Cherry|<img src="./img/cherry.jpg" width="200" />|<img src="./examples/cherry.jpg" width="200">
-Mic|<img src="./img/mic.jpg" width="200" />|<img src="./examples/mic.jpg" width="200">
-Sunflower|<img src="./img/sunflower.jpg" width="200" />|<img src="./examples/sunflower.jpg" width="200">
-Flower|<img src="./img/flower.jpg" width="200" />|<img src="./examples/flower.jpg" width="200">
+Baseball|<img src="./examples/images/baseball.jpg" width="200" />|<img src="./examples/objects/baseball.jpg" width="200">
+Birb|<img src="./examples/images/birb.jpg" width="200" />|<img src="./examples/objects/birb.jpg" width="200">
+Cherry|<img src="./examples/images/cherry.jpg" width="200" />|<img src="./examples/objects/cherry.jpg" width="200">
+Mic|<img src="./examples/images/mic.jpg" width="200" />|<img src="./examples/objects/mic.jpg" width="200">
+Sunflower|<img src="./examples/images/sunflower.jpg" width="200" />|<img src="./examples/objects/sunflower.jpg" width="200">
+Flower|<img src="./examples/images/flower.jpg" width="200" />|<img src="./examples/objects/flower.jpg" width="200">
