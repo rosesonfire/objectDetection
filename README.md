@@ -16,9 +16,17 @@ var config = {
 }
 
 detectObject(config).then(function(response) {
+
   var base64Img = response.base64Img
-  // use base64Img ...
-  imageElement.setAttribute('src', 'data:image/jpeg;base64,' + base64Img);
+
+  // use base64Img in html image tag ...
+  imageElement.setAttribute('src', 'data:image/jpeg;base64,' + base64Img)
+
+  // save base64Img as image file ...
+  fs.writeFile('object.jpg', base64Img, { encoding: 'base64' }, function() {
+  	console.log('Saved object image')
+  })
+  
 })
 
 ```
