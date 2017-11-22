@@ -8,9 +8,9 @@ var clustering = require("density-clustering");
 // == operations ===
 
 var operations = {
-    save: function (fileExt) {
+    save: function () {
     
-        var stream = savePixels(this, fileExt).pipe(base64.encode());
+        var stream = savePixels(this, "jpg").pipe(base64.encode());
         var base64Img = toString(stream).then(function(base64Img) {
 
             var base64ImgResponse = {
@@ -510,11 +510,11 @@ function createRGBPixels(name) {
 
 //=== API ===
 
-function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
+function detectObject({ imageName, sensitivity, tolerance }) {
 
-    if (!imageName || !fileExt || !sensitivity || !tolerance) {
-        alert("Must mention imageName, fileExt, sensitivity and tolerance in passed configuration.");
-        throw new Error("Must mention imageName, fileExt, sensitivity and tolerance in passed configuration.");
+    if (!imageName || !sensitivity || !tolerance) {
+        alert("Must mention imageName, sensitivity and tolerance in passed configuration.");
+        throw new Error("Must mention imageName, sensitivity and tolerance in passed configuration.");
     }
     
     if (sensitivity < 1 || sensitivity > 100 || tolerance < 1 || tolerance > 100) {
@@ -538,7 +538,7 @@ function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
         })
         .then(function(detectedObject) {
     
-            var base64ImgResponse = detectedObject.save(fileExt);
+            var base64ImgResponse = detectedObject.save();
             
             return base64ImgResponse;
     

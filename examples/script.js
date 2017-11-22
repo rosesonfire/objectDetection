@@ -1,12 +1,11 @@
 var detectObject = require("./../objectDetection");
 
-function getImageInfo() {
+function getImageName() {
   
   var imgInfo = document.querySelector("#hello").value;
   var imageName = imgInfo.split("-")[0];
-  var fileExt = imageName.split(".")[1];
 
-  return { imageName, fileExt };
+  return imageName;
 
 }
 
@@ -42,7 +41,7 @@ function refresh(optimize, detail) {
   
     var sensitivity = document.querySelector("#sensitivity").value,
         tolerance = document.querySelector("#tolerance").value,
-        { imageName, fileExt } = getImageInfo();
+        imageName = getImageName();
     
     document.querySelector("#bye").setAttribute("src", "/" + imageName);
     hideCriticalElements();
@@ -50,12 +49,11 @@ function refresh(optimize, detail) {
 
     var sensitivity = detail.cur.sensitivity,
         tolerance = detail.cur.tolerance,
-        imageName = detail.imageName,
-        fileExt = detail.fileExt;
+        imageName = detail.imageName;
 
   }
   
-  var config = { imageName, fileExt, sensitivity, tolerance };
+  var config = { imageName, sensitivity, tolerance };
 
   detectObject(config)
     .then(function(base64ImgResponse) {
@@ -65,7 +63,7 @@ function refresh(optimize, detail) {
         var base64Img = base64ImgResponse.base64Img,
             tada = document.querySelector("#tada");
 
-        tada.setAttribute("src", "data:image/" + fileExt + ";base64," + base64Img);
+        tada.setAttribute("src", "data:image/jpeg;base64," + base64Img);
 
         unhideCriticalElements();
 
@@ -210,12 +208,11 @@ document.querySelector("#optimize").addEventListener("click", function(event) {
   
   var accuracy = document.querySelector("#accuracy").value,
       optimizeProgress = document.querySelector("#optimize-progress"),
-      { imageName, fileExt } = getImageInfo();
+      imageName = getImageName();
   var step = 25 - accuracy * 25 / 100;
   
   var detail = {
     imageName,
-    fileExt,
     optimizeProgress,
     step,
     cur: {

@@ -10,8 +10,7 @@ var detectObject = require('object-detection')
 // Tweak the Sensitivity and the Tolerance for optimal result
 
 var config = {
-  imageName: 'path-to-image', // preferrably less than 100 kB
-  fileExt: 'jpg', // preferrably jpg
+  imageName: 'path-to-image', // preferrably in JPG format and less than 100 kB
   sensitivity: 50, // ranges from 1 to 100
   tolerance: 50, // ranges from 1 to 100
 }
@@ -19,12 +18,12 @@ var config = {
 detectObject(config).then(function(response) {
   var base64Img = response.base64Img
   // use base64Img ...
-  imageElement.setAttribute('src', 'data:image/' + config.fileExt + ';base64,' + base64Img);
+  imageElement.setAttribute('src', 'data:image/jpeg;base64,' + base64Img);
 })
 
 ```
 # Caution
-- Use small images, preferably less than 100 kB
+- Use small images, preferably in JPG format and less than 100 kB
 - Currently works for single object.
 - Behaviour is not strongly defined for multi-objects.
 - Contiguous objects are considered as single object.
