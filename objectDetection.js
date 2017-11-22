@@ -512,6 +512,11 @@ function createRGBPixels(name) {
 
 function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
 
+    if (!imageName || !fileExt || !sensitivity || !tolerance) {
+        alert("Must mention imageName, fileExt, sensitivity and tolerance in passed configuration.");
+        throw new Error("Must mention imageName, fileExt, sensitivity and tolerance in passed configuration.");
+    }
+    
     if (sensitivity < 1 || sensitivity > 100 || tolerance < 1 || tolerance > 100) {
         alert("Sensitivity and Tolerance ranges between 1 and 100");
         throw new Error("Sensitivity and Tolerance ranges between 1 and 100");
@@ -522,7 +527,7 @@ function detectObject({ imageName, fileExt, sensitivity, tolerance }) {
         g: 255,
         b: 255
     };
-    
+
     var base64Img = createRGBPixels(imageName)
         .then(function(img) {
     
